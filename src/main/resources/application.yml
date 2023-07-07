@@ -1,0 +1,24 @@
+server:
+  address: localhost
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://db_photoplat:3306/test?useSSL=false
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  thymeleaf:
+    suffix: .html
+    cache: false
+    encoding: UTF-8
+    content-type: text/html
+    mode: LEGACYHTML5
+# Single file max size
+multipart:
+  maxFileSize: 50Mb
+# All files max size
+  maxRequestSize: 50Mb
