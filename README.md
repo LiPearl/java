@@ -1,2 +1,2 @@
 # photoplat
-基于springboot+thymeleaf+hiredate+shiro的拍拍赚平台
+基于springboot+thymeleaf+hiredate+shiro的照片分享平台。
