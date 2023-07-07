@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="common/common::head"></div>
+    <div th:replace="common/common::logo"></div>
+    <div th:replace="common/common::topbar"></div>
+    <div th:replace="common/common::style"></div>
+    <div th:replace="common/common::sidebar"></div>
+    <div th:replace="common/common::foot"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/thirdStyledata/css/jiazaitoubu.css}">
+    <script th:src="@{/thirdStyledata/js/jquery-1.8.3.min.js}"></script>
+    <script th:src="@{/thirdStyledata/js/index2.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/thirdStyledata/css/center.css}">
+
+</head>
+<body>
+<div class="am-g tpl-g">
+    <div class="tpl-content-wrapper">
+        <div class="row-content am-cf">
+            <div class="row">
+                <div class="am-g tpl-g">
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title am-fl">任务名:<span th:text="${task_name}"></span></div>
+                                <div id="sumOfPhoto" th:class="${sumOfphoto}"></div>
+                                <div id="order_id" th:class="${order_id}"></div>
+                                <div class="widget-function am-fr">
+                                    <a href="javascript:;" class="am-icon-cog"></a>
+                                </div>
+                            </div>
+                            <div class="widget-body  widget-body-lg am-fr">
+
+                                <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                    <thead>
+                                    <tr>
+                                        <th>图片</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="Infotbody">
+
+                                    <!-- more data -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var sumOfphoto=document.getElementById("sumOfPhoto").className;
+    var order_idd=document.getElementById("order_id").className;
+
+    var request = new XMLHttpRequest();
+    request.open('GET', "/getPhotoId?order_id="+order_idd, true);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) { // 成功完成
+            // 判断响应结果:
+            if (request.status === 200) {
+                // 成功，通过responseText拿到响应的文本:
+                return success(request.responseText);
+            } else {
+                // 失败，根据响应码判断失败原因:
+                return fail(request.status);
+            }
+        } else {
+            // HTTP请求还在继续...
+        }
+    }
+    request.send();
+
+    function success(text) {
+        var jsonData = JSON.parse(text);
+        var Infotbody = document.getElementById('Infotbody');
+
+        for (var ii = 0; ii < jsonData.length; ii++) {
+
+            var json = jsonData[ii];
+            var tr = document.createElement("tr");
+            tr.setAttribute("class", "even gradeC");
+
+            var td = document.createElement("td");
+            var img = document.createElement("img");
+            img.setAttribute("src", "/showPic?photo_id=" + json);
+            img.setAttribute("height", "200");
+            img.setAttribute("width", "300");
+            td.appendChild(img);
+            tr.appendChild(td);
+
+            var td5=document.createElement("td");
+            var div1=document.createElement("div");
+            div1.setAttribute("class","tpl-table-black-operation");
+            var a1=document.createElement("a");
+            a1.setAttribute("href","/downloadPic?photo_id=" + json);
+            var a2=document.createElement("a");
+            a2.setAttribute("href","/delPic?photo_id=" + json + "&order_id=" + order_idd);
+            a2.setAttribute("class","tpl-table-black-operation-del");
+            var i1=document.createElement("i");
+            i1.setAttribute("class","am-icon-pencil");
+            var i2=document.createElement("i");
+            i2.setAttribute("class","am-icon-trash");
+            a1.appendChild(i1);
+            a1.innerHTML="下载";
+            a2.appendChild(i2);
+            div1.appendChild(a1);
+            div1.appendChild(a2);
+            td5.appendChild(div1);
+            tr.appendChild(td5);
+
+            Infotbody.appendChild(tr);
+
+        }
+    }
+
+
+
+</script>
+</body>
+</html>
