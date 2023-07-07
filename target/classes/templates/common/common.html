@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body data-type="widgets">
+
+    <div th:fragment="head">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <script th:src="@{/secondStyledata/assets/js/echarts.min.js}"></script>
+        <link rel="stylesheet" th:href="@{/secondStyledata/assets/css/amazeui.min.css}" />
+        <link rel="stylesheet" th:href="@{/secondStyledata/assets/css/amazeui.datatables.min.css}" />
+        <link rel="stylesheet" th:href="@{/secondStyledata/assets/css/app.css}">
+        <script th:src="@{/secondStyledata/assets/js/jquery.min.js}"></script>
+        <script th:src="@{/secondStyledata/assets/js/theme.js}"></script>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+        <link rel="stylesheet" th:href="@{/dists/css/zui-theme.css}">
+        <link rel="stylesheet" th:href="@{/dists/lib/bootbox/bootbox.css}">
+        <link rel="stylesheet" th:href="@{/dists/css/jquery.dataTables.min.css}" />
+        <link rel="stylesheet" th:href="@{/dists/lib/dashboard/zui.dashboard.min.css}" >
+
+    </div>
+
+    <header>
+        <!-- logo -->
+        <div th:fragment="logo" class="am-fl tpl-header-logo" >
+            <a href="javascript:;"><img width="100px" th:src="@{/secondStyledata/assets/img/k.jpg}" alt=""></a>
+        </div>
+        <!-- 右侧内容 -->
+        <div th:fragment="topbar" class="tpl-header-fluid">
+            <!-- 侧边切换 -->
+            <div class="am-fl tpl-header-switch-button am-icon-list">
+                <span>
+
+                </span>
+            </div>
+            <!-- 其它功能-->
+            <div class="am-fr tpl-header-navbar">
+                <ul>
+                    <!-- 欢迎语 -->
+                    <li class="am-text-sm tpl-header-navbar-welcome">
+                        <a href="javascript:;">欢迎你, <span th:text="${user.username}"></span> </a>
+                    </li>
+
+
+                    <!-- 退出 -->
+                    <li class="am-text-sm">
+                        <a th:href="@{/loginout}">
+                            <span class="am-icon-sign-out"></span> 退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- 风格切换 -->
+    <div th:fragment="style" class="tpl-skiner">
+        <div class="tpl-skiner-toggle am-icon-cog">
+        </div>
+        <div class="tpl-skiner-content">
+            <div class="tpl-skiner-content-title">
+                选择主题
+            </div>
+            <div class="tpl-skiner-content-bar">
+                <span class="skiner-color skiner-white" data-color="theme-white"></span>
+                <span class="skiner-color skiner-black" data-color="theme-black"></span>
+            </div>
+        </div>
+    </div>
+    <!-- 侧边导航栏 -->
+    <div th:fragment="sidebar" class="left-sidebar">
+        <!-- 用户信息 -->
+        <div class="tpl-sidebar-user-panel">
+            <div class="tpl-user-panel-slide-toggleable">
+                <div class="tpl-user-panel-profile-picture" id="Myportrait">
+                    <img src="/showPortrait">
+                </div>
+                <span class="user-panel-logged-in-text">
+                  <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
+                  <span th:text="${user.username}">
+                </span>
+                 <br>
+                  <a th:href="@{/index/changePro}" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 更换头像</a>
+            </div>
+        </div>
+
+
+        <!-- 菜单 -->
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-heading">Contents</li>
+
+            <li class="sidebar-nav-link">
+                <a href="javascript:;" class="sidebar-nav-sub-title">
+                    <i class="am-icon-table sidebar-nav-link-logo"></i> 个人中心
+                    <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                </a>
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <a th:href="@{/index/userInfo}">
+                            <span class="sidebar-nav-link-logo"></span> 修改账户信息
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-link">
+                        <a th:href="@{/unOrder}">
+                            <span class="sidebar-nav-link-logo"></span> 未完成订单
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-link">
+                        <a th:href="@{/comOrder}">
+                            <span class="sidebar-nav-link-logo"></span> 已完成订单
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="sidebar-nav-link">
+                <a href="javascript:;" class="sidebar-nav-sub-title">
+                    <i class="am-icon-table sidebar-nav-link-logo"></i> 商家中心
+                    <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                </a>
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <a th:href="@{/index/applyBussiness}">
+                            <span class="sidebar-nav-link-logo"></span> 申请为商家
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-link">
+                        <a th:href="@{/index/releaseTask}">
+                            <span class="sidebar-nav-link-logo"></span> 发布任务
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-link">
+                        <a th:href="@{/index/hasTask}">
+                            <span class="sidebar-nav-link-logo"></span> 已发布任务
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="sidebar-nav-link">
+                <a href="javascript:;" class="sidebar-nav-sub-title">
+                    <i class="am-icon-calendar sidebar-nav-link-logo"></i> 周围订单
+                    <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                </a>
+                <ul class="sidebar-nav sidebar-nav-sub">
+                 <li class="sidebar-nav-link">
+                        <a href="/map">
+                            <span class="sidebar-nav-link-logo"></span> 地图
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-link">
+                        <a href="/arroundTask">
+                            <span class="sidebar-nav-link-logo"></span> 周围
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="sidebar-nav-link">
+                <a href="/index/aboutPlat">
+                    <i class="am-icon-wpforms sidebar-nav-link-logo"></i> 关于平台
+                </a>
+            </li>
+
+        </ul>
+        <script type="text/javascript">
+
+            /*var request = new XMLHttpRequest();
+            request.open('GET',"/index/getUserInfo", true);
+            request.onreadystatechange = function () {
+                if (request.readyState === 4) { // 成功完成
+                    // 判断响应结果:
+                    if (request.status === 200) {
+                        // 成功，通过responseText拿到响应的文本:
+                        return success(request.responseText);
+                    } else {
+                        // 失败，根据响应码判断失败原因:
+                        return fail(request.status);
+                    }
+                } else {
+                    // HTTP请求还在继续...
+                }
+            }
+            request.send();
+
+            function success(text) {
+                var jsonData = JSON.parse(text);
+                var div=document.getElementById("Myportrait");
+                var img=document.createElement("img");
+                img.setAttribute("src",jsonData.portrait);
+                div.appendChild(img);
+            }*/
+        </script>
+    </div>
+    <div th:fragment="foot">
+        <script th:src="@{/secondStyledata/assets/js/amazeui.min.js}"></script>
+        <script th:src="@{/secondStyledata/assets/js/amazeui.datatables.min.js}"></script>
+        <script th:src="@{/secondStyledata/assets/js/dataTables.responsive.min.js}"></script>
+        <script th:src="@{/secondStyledata/assets/js/app.js}"></script>
+    </div>
+
+</body>
+</html>

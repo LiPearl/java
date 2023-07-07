@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="common/common::head"></div>
+    <div th:replace="common/common::logo"></div>
+    <div th:replace="common/common::topbar"></div>
+    <div th:replace="common/common::style"></div>
+    <div th:replace="common/common::sidebar"></div>
+    <div th:replace="common/common::foot"></div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/thirdStyledata/css/jiazaitoubu.css}">
+    <script th:src="@{/thirdStyledata/js/jquery-1.8.3.min.js}"></script>
+    <script th:src="@{/thirdStyledata/js/index2.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/thirdStyledata/css/center.css}">
+</head>
+<body>
+    <div class="am-g tpl-g">
+        <div class="tpl-content-wrapper">
+            <div class="row-content am-cf">
+                <div class="row">
+                    <div class="am-g tpl-g">
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                            <div class="widget am-cf">
+                                <div class="widget-head am-cf">
+                                    <div class="widget-title am-fl">任务接单情况<span th:text="${msg}"></span></div>
+                                    <div class="widget-function am-fr">
+                                        <a href="javascript:;" class="am-icon-cog"></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body  widget-body-lg am-fr">
+                                    <div id="getTaskId" th:class="${taskinfo.task_id}"></div>
+                                    <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                        <thead>
+                                        <tr>
+                                            <th>用户名</th>
+                                            <th>接单时间</th>
+                                            <th>完成订单时间</th>
+                                            <th>任务详情</th>
+                                            <th>下载图片</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="Infotbody">
+                                        <!-- more data -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var taskid=document.getElementById("getTaskId").className;
+        var request = new XMLHttpRequest();
+        request.open('GET',"/getTaskOrderdata?task_id="+taskid, true);
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) { // 成功完成
+                // 判断响应结果:
+                if (request.status === 200) {
+                    // 成功，通过responseText拿到响应的文本:
+                    return success(request.responseText);
+                } else {
+                    // 失败，根据响应码判断失败原因:
+                    return fail(request.status);
+                }
+            } else {
+                // HTTP请求还在继续...
+            }
+        }
+        request.send();
+
+        function success(text) {
+            var jsonData = JSON.parse(text);
+            var Infotbody = document.getElementById('Infotbody');
+
+            var order_id;
+            var username;
+            var task_id;
+            var apply_time;
+            var lastload_time;
+            var finish_time;
+            var photo_pathment;
+
+            for (var i = 0; i < jsonData.length; i++) {
+                var json = jsonData[i];
+                task_id=json.task_id;
+                username=json.username;
+                order_id=json.order_id;
+                apply_time=json.apply_time;
+                lastload_time=json.lastload_time;
+                finish_time=json.finish_time;
+                photo_pathment=json.photo_pathment;
+
+                var tr=document.createElement("tr");
+                tr.setAttribute("class","even gradeC");
+
+                var td=document.createElement("td");
+                td.innerHTML=username;
+                tr.appendChild(td);
+
+                var td1=document.createElement("td");
+                td1.innerHTML=apply_time;
+                tr.appendChild(td1);
+
+                var td3=document.createElement("td");
+                td3.innerHTML=finish_time;
+                tr.appendChild(td3);
+
+                var td4=document.createElement("td");
+                var div=document.createElement("div");
+                div.setAttribute("class","tpl-table-black-operation");
+                var a=document.createElement("a");
+                a.setAttribute("href","/TaskInfo?task_id="+task_id);
+                a.innerHTML=null;
+                var i4=document.createElement("i");
+                i4.setAttribute("class","am-icon-down");
+                a.appendChild(i4);
+                a.innerHTML="任务详情";
+                div.appendChild(a);
+                td4.appendChild(div);
+                tr.appendChild(td4);
+
+                var td4=document.createElement("td");
+                var div=document.createElement("div");
+                div.setAttribute("class","tpl-table-black-operation");
+                var a=document.createElement("a");
+                a.setAttribute("href","/downloadPhoto?order_id="+order_id+"&username="+username);
+                a.innerHTML=null;
+                var i4=document.createElement("i");
+                i4.setAttribute("class","am-icon-down");
+                a.appendChild(i4);
+                a.innerHTML="下载图片";
+                div.appendChild(a);
+                td4.appendChild(div);
+                tr.appendChild(td4);
+
+                var td5=document.createElement("td");
+                var div1=document.createElement("div");
+                div1.setAttribute("class","tpl-table-black-operation");
+                var a1=document.createElement("a");
+                a1.setAttribute("href","/acceptOrder?order_id="+order_id+"&task_id="+task_id);
+                var a2=document.createElement("a");
+                a2.setAttribute("href","/rejectOrder?order_id="+order_id+"&task_id="+task_id);
+                a2.setAttribute("class","tpl-table-black-operation-del");
+                var i1=document.createElement("i");
+                i1.setAttribute("class","am-icon-pencil");
+                var i2=document.createElement("i");
+                i2.setAttribute("class","am-icon-trash");
+                a1.appendChild(i1);
+                a1.innerHTML="完成订单";
+                a2.appendChild(i2);
+                div1.appendChild(a1);
+                div1.appendChild(a2);
+                td5.appendChild(div1);
+                tr.appendChild(td5);
+
+                Infotbody.appendChild(tr);
+            }
+        }
+
+
+
+    </script>
+</body>
+</html>
